@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LFXCORE — Mapa conceptual</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --paper:#F7F4EC;
+    --paper-2:#F1EDE2;
+    --ink:#1C1A16;
+    --ink-soft:#4A4540;
+    --ink-faint:#8B8478;
+    --line:#D9D2C2;
+    --line-strong:#C2B9A4;
+    --rust:#A8472E;
+    --rust-soft:#C97257;
+    --sage:#4A5D4E;
+    --sage-soft:#7C9180;
+    --violet:#5E5470;
+    --violet-soft:#8B80A0;
+    --gold:#9C7A2E;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px;}
+
+  @media (min-width:640px){ .wrap{padding:0 40px;} }
+  @media (min-width:1000px){ .wrap{padding:0 48px;} }
+
+  /* ===== TOPBAR ===== */
+  .topbar{
+    border-bottom:1px solid var(--line);
+    padding:20px 0;
+  }
+  .topbar-inner{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{
+    width:30px; height:30px; border:1.5px solid var(--ink); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; font-weight:600;
+  }
+  .brand-name{font-family:'IBM Plex Mono', monospace; font-size:13px; font-weight:500; letter-spacing:0.02em;}
+  .topbar-doc{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-faint); letter-spacing:0.04em;}
+
+  /* ===== MASTHEAD ===== */
+  .masthead{padding:64px 0 56px; border-bottom:1px solid var(--line);}
+  .masthead-label{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--rust); margin-bottom:24px; font-weight:500;
+  }
+  .masthead h1{
+    font-family:'Source Serif 4', serif; font-weight:500; font-size:clamp(32px, 6vw, 54px);
+    line-height:1.08; letter-spacing:-0.01em; max-width:760px; margin-bottom:28px;
+  }
+  .masthead h1 em{font-style:italic; color:var(--rust); font-weight:500;}
+  .masthead .dek{
+    font-size:clamp(16px,2vw,19px); color:var(--ink-soft); max-width:560px; line-height:1.6;
+    font-weight:400;
+  }
+  .masthead .dek strong{color:var(--ink); font-weight:600;}
+
+  /* ===== SECTION SCAFFOLDING ===== */
+  section{padding:56px 0; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+
+  .sec-label{
+    display:flex; align-items:baseline; gap:14px; margin-bottom:28px;
+  }
+  .sec-label .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--ink-faint); white-space:nowrap;
+  }
+  .sec-label .rule{flex:1; height:1px; background:var(--line);}
+
+  h2.h2{
+    font-family:'Source Serif 4', serif; font-weight:500; font-size:clamp(24px,3.4vw,34px);
+    line-height:1.18; margin-bottom:18px; letter-spacing:-0.01em;
+  }
+  h2.h2 em{font-style:italic; color:var(--rust);}
+  .lede{font-size:16px; color:var(--ink-soft); max-width:620px; line-height:1.65; margin-bottom:8px;}
+  .lede strong{color:var(--ink); font-weight:600;}
+
+  /* ===== WHY (problem framing) ===== */
+  .why-grid{
+    display:grid; grid-template-columns:1fr; gap:1px; margin-top:36px;
+    background:var(--line); border:1px solid var(--line);
+  }
+  @media (min-width:760px){ .why-grid{grid-template-columns:1fr 1fr;} }
+  .why-cell{background:var(--paper); padding:28px 26px;}
+  .why-cell .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:0.1em;
+    text-transform:uppercase; margin-bottom:12px; font-weight:500;
+  }
+  .why-cell.old .eyebrow{color:var(--ink-faint);}
+  .why-cell.new .eyebrow{color:var(--rust);}
+  .why-cell p{font-size:14.5px; color:var(--ink-soft); line-height:1.6;}
+  .why-cell .big{
+    font-family:'Source Serif 4', serif; font-size:19px; font-style:italic; color:var(--ink);
+    margin-bottom:10px; line-height:1.4;
+  }
+
+  /* ===== ANATOMY DIAGRAM (signature element) ===== */
+  .anatomy-wrap{margin-top:40px;}
+  .anatomy{
+    position:relative;
+    display:flex; flex-direction:column; align-items:center; gap:0;
+  }
+
+  .spine{
+    width:3px; background:linear-gradient(180deg, var(--violet), var(--violet-soft));
+    border-radius:2px; position:relative;
+  }
+
+  .core-node{
+    width:100%; max-width:280px; margin:0 auto 0;
+    background:var(--ink); color:var(--paper);
+    border-radius:10px; padding:18px 22px; text-align:center;
+    position:relative; z-index:2;
+  }
+  .core-node .ctitle{font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:0.08em; font-weight:600; margin-bottom:4px;}
+  .core-node .csub{font-size:12px; color:#C9C4B8; line-height:1.4;}
+
+  .nerve{
+    width:100%; max-width:1px; background:var(--violet-soft); height:36px; margin:0 auto;
+    position:relative;
+  }
+  .nerve::after{
+    content:'sistema nervioso — el bus de eventos';
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) rotate(0deg);
+    font-family:'IBM Plex Mono', monospace; font-size:9.5px; color:var(--violet);
+    background:var(--paper); padding:3px 10px; white-space:nowrap; letter-spacing:0.02em;
+    border:1px solid var(--violet-soft); border-radius:20px;
+  }
+
+  .organs-row{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:10px; width:100%; margin-top:8px;
+  }
+  .organs-row.row2{grid-template-columns:repeat(3,1fr); max-width:76%; margin:8px auto 0;}
+  .organ{
+    background:var(--paper-2); border:1px solid var(--line-strong); border-radius:9px;
+    padding:14px 10px; text-align:center; position:relative;
+  }
+  .organ::before{
+    content:''; position:absolute; top:-9px; left:50%; width:1px; height:9px;
+    background:var(--sage-soft);
+  }
+  .organ .oicon{font-size:18px; display:block; margin-bottom:6px;}
+  .organ .oname{font-family:'IBM Plex Mono', monospace; font-size:10.5px; font-weight:600; color:var(--sage); margin-bottom:3px; letter-spacing:0.01em;}
+  .organ .odesc{font-size:10.5px; color:var(--ink-faint); line-height:1.35;}
+
+  @media (max-width:640px){
+    .organs-row{grid-template-columns:repeat(2,1fr); gap:8px;}
+    .organs-row.row2{grid-template-columns:repeat(2,1fr); max-width:100%;}
+    .core-node{max-width:100%;}
+  }
+
+  .anatomy-caption{
+    margin-top:28px; padding:18px 22px; background:var(--paper-2); border-left:3px solid var(--violet);
+    border-radius:0 8px 8px 0;
+  }
+  .anatomy-caption p{font-size:13.5px; color:var(--ink-soft); line-height:1.6;}
+  .anatomy-caption strong{color:var(--ink);}
+
+  /* ===== COMPOSITION TABLE ===== */
+  .compose-list{margin-top:32px; border-top:1px solid var(--line);}
+  .compose-row{
+    display:grid; grid-template-columns:160px 1fr; gap:20px;
+    padding:20px 0; border-bottom:1px solid var(--line); align-items:start;
+  }
+  @media (max-width:600px){
+    .compose-row{grid-template-columns:1fr; gap:8px;}
+  }
+  .compose-row .cname{
+    font-family:'Source Serif 4', serif; font-style:italic; font-size:17px; color:var(--ink);
+  }
+  .compose-row .ctags{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;}
+  .ctag{
+    font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:500;
+    padding:3px 9px; border-radius:3px; letter-spacing:0.02em;
+  }
+  .ctag.core{background:var(--ink); color:var(--paper);}
+  .ctag.on{background:rgba(74,93,78,0.14); color:var(--sage); border:1px solid rgba(74,93,78,0.3);}
+  .ctag.ext{background:transparent; border:1px dashed var(--ink-faint); color:var(--ink-faint);}
+  .compose-row p{font-size:13.5px; color:var(--ink-soft); line-height:1.55;}
+
+  /* ===== VALUE BLOCKS (technical -> business translation) ===== */
+  .value-list{margin-top:32px;}
+  .value-item{
+    display:grid; grid-template-columns:36px 1fr; gap:18px;
+    padding:22px 0; border-bottom:1px solid var(--line);
+  }
+  .value-item:last-child{border-bottom:none;}
+  .value-num{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--rust); font-weight:600;
+    padding-top:3px;
+  }
+  .value-item h3{
+    font-family:'Source Serif 4', serif; font-weight:500; font-size:17.5px; margin-bottom:6px;
+  }
+  .value-item .mech{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--violet);
+    letter-spacing:0.02em; margin-bottom:8px; display:block;
+  }
+  .value-item p{font-size:14px; color:var(--ink-soft); line-height:1.6;}
+
+  /* ===== STATUS STRIP ===== */
+  .status-strip{
+    margin-top:36px; display:flex; flex-wrap:wrap; gap:0;
+    border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  }
+  .status-cell{
+    flex:1; min-width:140px; padding:18px 20px; border-right:1px solid var(--line);
+  }
+  .status-cell:last-child{border-right:none;}
+  .status-cell .slabel{font-family:'IBM Plex Mono', monospace; font-size:9.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-faint); margin-bottom:6px;}
+  .status-cell .sval{font-size:13.5px; color:var(--ink); font-weight:500; line-height:1.4;}
+  .status-cell .sval.live{color:var(--sage);}
+  .status-cell .sval.pending{color:var(--rust-soft);}
+
+  /* ===== CLOSING ===== */
+  .closing{padding:64px 0 80px; text-align:left;}
+  .closing .quote{
+    font-family:'Source Serif 4', serif; font-style:italic; font-weight:500;
+    font-size:clamp(20px,3vw,28px); line-height:1.45; color:var(--ink); max-width:680px; margin-bottom:18px;
+  }
+  .closing .quote em{color:var(--rust); font-style:italic;}
+  .closing .attrib{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--ink-faint);}
+
+  footer{
+    border-top:1px solid var(--line); padding:28px 0 40px;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+  }
+  footer p{font-size:12px; color:var(--ink-faint); font-family:'IBM Plex Mono', monospace;}
+
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important; animation:none !important;} }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">LX</div>
+      <div class="brand-name">LOGICFORGEX</div>
+    </div>
+    <div class="topbar-doc">MAPA CONCEPTUAL — LFXCORE</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="masthead-label">Cómo está construido, y por qué importa</div>
+    <h1>Una plataforma que se adapta al negocio<br><em>en vez de obligar al negocio a adaptarse.</em></h1>
+    <p class="dek">
+      LFXCORE no es un sistema para un solo tipo de empresa. Es un conjunto de <strong>piezas reutilizables</strong>
+      que cada negocio combina según lo que realmente necesita — y una forma de construirlas que evita el problema
+      que mata a la mayoría de los sistemas a medida: que crecer rompa lo que ya funcionaba.
+    </p>
+  </header>
+
+  <section id="why">
+    <div class="sec-label"><span class="tag">01 — El problema</span><div class="rule"></div></div>
+    <h2 class="h2">El software a medida tiene un costo <em>que no se ve hasta después.</em></h2>
+    <p class="lede">
+      Cada negocio termina con un sistema construido desde cero, que se parece en nada al de su competencia
+      aunque resuelvan el mismo problema — y que se vuelve frágil apenas el negocio crece o cambia.
+    </p>
+
+    <div class="why-grid">
+      <div class="why-cell old">
+        <div class="eyebrow">Cómo se hace normalmente</div>
+        <div class="big">Un traje a medida, desde cero, cada vez.</div>
+        <p>
+          Llega un taller mecánico: se construye un sistema completo solo para él. Llega una barbería: otro sistema
+          completo, desde cero. Cada implementación es un proyecto aislado — caro de mantener, lento de actualizar,
+          y sin ninguna pieza que se pueda reutilizar en el siguiente cliente.
+        </p>
+      </div>
+      <div class="why-cell new">
+        <div class="eyebrow">Cómo lo resuelve LFXCORE</div>
+        <div class="big">Piezas sólidas, combinadas distinto.</div>
+        <p>
+          Se construyen piezas grandes y probadas una sola vez — una para vender, otra para agendar trabajo, otra
+          para gestionar proyectos. Cada negocio activa la combinación que necesita. Construir la próxima empresa
+          no es empezar de cero: es elegir piezas que ya existen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="anatomy">
+    <div class="sec-label"><span class="tag">02 — La anatomía</span><div class="rule"></div></div>
+    <h2 class="h2">Una columna central, <em>órganos que no se tocan entre sí.</em></h2>
+    <p class="lede">
+      Todo lo que cualquier negocio necesita sin excepción —usuarios, permisos, seguridad— vive en un núcleo
+      compartido. Las capacidades de negocio se conectan a ese núcleo, nunca directamente entre ellas.
+    </p>
+
+    <div class="anatomy-wrap">
+      <div class="anatomy">
+        <div class="core-node">
+          <div class="ctitle">CORE</div>
+          <div class="csub">usuarios · permisos · seguridad · identidad del cliente</div>
+        </div>
+        <div class="nerve"></div>
+        <div class="organs-row">
+          <div class="organ"><span class="oicon">🛒</span><div class="oname">COMMERCE</div><div class="odesc">comprar y vender</div></div>
+          <div class="organ"><span class="oicon">🗓️</span><div class="oname">SERVICES</div><div class="odesc">agendar y cobrar</div></div>
+          <div class="organ"><span class="oicon">📁</span><div class="oname">BUSINESS</div><div class="odesc">clientes y proyectos</div></div>
+          <div class="organ"><span class="oicon">🚚</span><div class="oname">OPERATIONS</div><div class="odesc">logística y flotas</div></div>
+        </div>
+        <div class="organs-row row2">
+          <div class="organ"><span class="oicon">🎓</span><div class="oname">EDUCATION</div><div class="odesc">alumnos y cursos</div></div>
+          <div class="organ"><span class="oicon">🩺</span><div class="oname">HEALTHCARE</div><div class="odesc">pacientes e historial</div></div>
+          <div class="organ"><span class="oicon">🎟️</span><div class="oname">MEMBERSHIP</div><div class="odesc">miembros y planes</div></div>
+        </div>
+      </div>
+
+      <div class="anatomy-caption">
+        <p>
+          <strong>Ningún pilar conoce el código interno de otro.</strong> Cuando algo ocurre en uno —una venta,
+          una cita confirmada— la noticia viaja por un canal común a todos los demás pilares interesados, igual
+          que una señal nerviosa. Esto significa que se puede agregar o quitar una capacidad de negocio sin
+          arriesgar que algo más, ya construido, se rompa.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="composition">
+    <div class="sec-label"><span class="tag">03 — La composición</span><div class="rule"></div></div>
+    <h2 class="h2">El mismo sistema, <em>una identidad distinta para cada negocio.</em></h2>
+    <p class="lede">
+      Ningún negocio activa los siete pilares. Cada uno usa exactamente los que necesita — y solo paga,
+      y solo carga, con eso.
+    </p>
+
+    <div class="compose-list">
+      <div class="compose-row">
+        <div>
+          <div class="cname">Taller mecánico</div>
+        </div>
+        <div>
+          <div class="ctags">
+            <span class="ctag core">Core</span><span class="ctag on">Commerce</span><span class="ctag on">Services</span><span class="ctag ext">+ extensión Automotive</span>
+          </div>
+          <p>Vende repuestos y agenda mantenciones a la vez, sobre el mismo sistema. La extensión agrega lo específico del rubro —patentes, kilometraje— sin tocar las piezas base.</p>
+        </div>
+      </div>
+      <div class="compose-row">
+        <div><div class="cname">Barbería</div></div>
+        <div>
+          <div class="ctags"><span class="ctag core">Core</span><span class="ctag on">Services</span></div>
+          <p>Solo agenda, asigna y cobra. No paga ni carga con un módulo de inventario que jamás usaría.</p>
+        </div>
+      </div>
+      <div class="compose-row">
+        <div><div class="cname">Consultora</div></div>
+        <div>
+          <div class="ctags"><span class="ctag core">Core</span><span class="ctag on">Business</span></div>
+          <p>Gestiona clientes y proyectos. No vende productos ni agenda citas — usa exactamente una pieza.</p>
+        </div>
+      </div>
+      <div class="compose-row">
+        <div><div class="cname">Clínica dental</div></div>
+        <div>
+          <div class="ctags"><span class="ctag core">Core</span><span class="ctag on">Healthcare</span><span class="ctag on">Services</span></div>
+          <p>Historial clínico de pacientes combinado con agenda de horas — dos piezas, un solo sistema.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="value">
+    <div class="sec-label"><span class="tag">04 — Por qué esto importa</span><div class="rule"></div></div>
+    <h2 class="h2">Decisiones técnicas, <em>traducidas a lo que significan.</em></h2>
+
+    <div class="value-list">
+      <div class="value-item">
+        <div class="value-num">01</div>
+        <div>
+          <h3>Agregar un cliente nuevo no obliga a reconstruir nada</h3>
+          <span class="mech">mecanismo: pilares físicamente separados</span>
+          <p>Cada capacidad de negocio vive en su propio espacio dentro del sistema. Construir el siguiente cliente —de un rubro distinto, incluso— es combinar piezas existentes, no escribir un sistema nuevo.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-num">02</div>
+        <div>
+          <h3>Un negocio puede crecer sin migrar de sistema</h3>
+          <span class="mech">mecanismo: activación de pilares por cliente</span>
+          <p>Si un taller que hoy solo vende repuestos empieza a ofrecer mantenciones, se activa la pieza de agenda sobre el mismo sistema que ya tiene. No hay migración, no hay pérdida de datos, no hay proyecto nuevo.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-num">03</div>
+        <div>
+          <h3>Un error en una pieza no puede tumbar a las demás</h3>
+          <span class="mech">mecanismo: comunicación exclusiva por canal de eventos</span>
+          <p>Ninguna pieza llama directamente a otra. Si una falla o se actualiza, las demás no se entrecruzan con su código interno y siguen funcionando con normalidad.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-num">04</div>
+        <div>
+          <h3>Personalizar un rubro específico no requiere tocar la base</h3>
+          <span class="mech">mecanismo: extensiones sobre puntos de enganche declarados</span>
+          <p>Una vertical como una barbería o un taller automotriz se construye como una capa fina encima de las piezas existentes —nunca reescribiéndolas—, así que nunca arriesga lo que ya funciona para todos los demás clientes.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-num">05</div>
+        <div>
+          <h3>El dato del cliente nunca queda en disputa entre sistemas</h3>
+          <span class="mech">mecanismo: identidad del cliente con dueño único</span>
+          <p>Existe un solo lugar autorizado para escribir el nombre, correo o teléfono real de un cliente. Cada pieza de negocio puede anotar lo suyo —preferencias, historial— sin arriesgar jamás el dato base.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="status">
+    <div class="sec-label"><span class="tag">05 — Estado actual</span><div class="rule"></div></div>
+    <h2 class="h2">Dónde está hoy <em>esta arquitectura.</em></h2>
+    <p class="lede">
+      La visión está definida y la primera pieza —Commerce— ya opera en producción. Las piezas siguientes
+      se construyen sobre la misma base, no en paralelo a ella.
+    </p>
+
+    <div class="status-strip">
+      <div class="status-cell">
+        <div class="slabel">Commerce</div>
+        <div class="sval live">En producción</div>
+      </div>
+      <div class="status-cell">
+        <div class="slabel">Arquitectura base</div>
+        <div class="sval live">Definida y congelada</div>
+      </div>
+      <div class="status-cell">
+        <div class="slabel">Services</div>
+        <div class="sval pending">En construcción</div>
+      </div>
+      <div class="status-cell">
+        <div class="slabel">Otros pilares</div>
+        <div class="sval pending">Por demanda real</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing" id="closing" style="border-bottom:none;">
+    <div class="quote">El sistema se adapta a la empresa. <em>La empresa no se adapta al sistema.</em></div>
+    <div class="attrib">— el principio detrás de cada decisión de LFXCORE</div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap topbar-inner">
+    <p>LOGICFORGEX — investigación, diseño e implementación de software empresarial</p>
+    <p>LFXCORE — plataforma modular por pilares</p>
+  </div>
+</footer>
+
+</body>
+</html>
